@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     Vector3 MoveVector = Vector3.zero;
+  
 
     [SerializeField]
     float Speed;
@@ -24,6 +25,12 @@ public class Player : MonoBehaviour
     
     void UpdateMove()
     {
+        
+        if(MoveVector.sqrMagnitude == 0)
+            return;
+
+        MoveVector = AdjustMoveVector(MoveVector);
+
         transform.position += MoveVector;
     }
 
