@@ -2305,3 +2305,4 @@ Received Import Request.
 Start importing Assets/Resoures/Perfabs/Enemy.prefab using Guid(8a235fff59d762c44ab143ffad3923de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd8f17a4b32f7e4fe057e1c2225dc0c1a') in 0.013348 seconds 
   Import took 0.015866 seconds .
 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
