@@ -65,4 +65,15 @@ public class Player : MonoBehaviour
 
         return moveVector;
     }
+    private void OnTriggerEnter(Collider other) //3차원상 충돌체로 만들어 주어 내가 다른 오브젝트와 충돌했을 때 이벤트 발생하게 하는 메소드
+    {
+
+        Enemy enemy = other.GetComponentInParent<Enemy>();
+        if (enemy)
+            enemy.OnCrash(this);
+    }
+    public void OnCrash(Enemy enemy) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
+    {
+        Debug.Log("OnCrash enemy = " + enemy);
+    }
 }
