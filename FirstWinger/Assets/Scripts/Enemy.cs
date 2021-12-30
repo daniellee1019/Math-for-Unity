@@ -28,6 +28,8 @@ public class Enemy : MonoBehaviour
     float CurrentSpeed;
 
     Vector3 CurrentVelocity;
+    float MoveStratTime = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,13 +39,27 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateMove();
-        UpdateSpeed();
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Appear(new Vector3(7.0f, 0.0f, 0.0f));
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Disappear(new Vector3(-15.0f, 0.0f, 0.0f));
+        }
+
+        if (CurrentState == State.Appear || CurrentState == State.Disappear)
+        {
+            UpdateMove();
+            UpdateSpeed();
+
+        }
     }
 
     void UpdateSpeed()
     {
-        CurrentSpeed = Mathf.Lerp()
+        CurrentSpeed = Mathf.Lerp(CurrentSpeed, MaxSpeed, (Time.time - MoveStratTime)/MaxSpeedTime);
     }
 
     void UpdateMove()
@@ -71,7 +87,7 @@ public class Enemy : MonoBehaviour
         CurrentSpeed = MaxSpeed;
 
         CurrentState = State.Appear;
-
+        MoveStratTime = Time.time;
     }
 
     void Disappear(Vector3 targetPos)
@@ -80,5 +96,6 @@ public class Enemy : MonoBehaviour
         CurrentSpeed = 0;
 
         CurrentState = State.Disappear;
+        MoveStratTime = Time.time;
     }
 }
