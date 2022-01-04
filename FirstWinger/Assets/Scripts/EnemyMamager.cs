@@ -7,6 +7,7 @@ public class EnemyMamager : MonoBehaviour
     [SerializeField]
     EnemyFactory enemyFactory;
 
+        
     List<Enemy> enemies = new List<Enemy>();
 
 

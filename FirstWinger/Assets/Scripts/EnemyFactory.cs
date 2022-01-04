@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class EnemyFactory : MonoBehaviour
     Dictionary<string, GameObject> EnemyFileCache = new Dictionary<string, GameObject>(); // 캐싱을 이용하여 메모리와 리소스를 최적화 하기 위해 딕셔너리로
                                                                                           // string형의 Key로 받아주고 이것을 GameObject로 받아준다.
     // Start is called before the first frame update
-    void Start()
+    void Start()    
     {
         
     }
@@ -21,7 +22,7 @@ public class EnemyFactory : MonoBehaviour
     }
 
 
-    public  GameObject Load(string resourcePath) // GameObject를 로드하기 위한 메소드
+    public GameObject Load(string resourcePath) // GameObject를 로드하기 위한 메소드
     {
         GameObject go = null; // 이미 로드가 됐을 수도 있고 안됐을 수도 있기 때문에 null로 생성
 
@@ -41,9 +42,8 @@ public class EnemyFactory : MonoBehaviour
             EnemyFileCache.Add(resourcePath, go); // 로드가 정상적으로 되면 딕셔너리 안에 key값과 value값을 추가해준다.
        
         } // 메모리상에만 배치되어 있는 것이기 때문에 Instantiate 를 사용해서 Scene상에 배치해야된다.
-        
-        GameObject InstancedGo = Instantiate<GameObject>(go);
 
+        GameObject InstancedGo = Instantiate<GameObject>(go);
         return InstancedGo;
     }
 }
