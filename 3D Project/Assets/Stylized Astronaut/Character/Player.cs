@@ -8,10 +8,11 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	private Transform cameraArm;
 
-
+    
 	private Animator anim;
 	private CharacterController controller;
     public float gravity = 20.0f;
+
 
 
     void Start () 

@@ -90,6 +90,6 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 //break;
         }
         
-        //Debug.Log(inputDirection.x + " / " + inputDirection.y);
+        Debug.Log(inputDirection.x + " / " + inputDirection.y);
     }
 }
