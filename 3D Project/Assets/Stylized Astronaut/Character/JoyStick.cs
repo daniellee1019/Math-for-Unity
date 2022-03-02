@@ -17,7 +17,7 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Player controller;
 
 
-    public enum JoystickType { Move, Rotate }
+    public enum JoystickType { Move, Jump }
     public JoystickType joystickType;
     private void Awake()
     {
@@ -59,8 +59,8 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 controller.Move(Vector2.zero);
                 break;
             // 조이스틱 2개 쓰기위한 switch문
-            //case JoystickType.Rotate:
-                //break;
+            case JoystickType.Jump:
+                break;
         }
         
     }
@@ -85,11 +85,11 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 break;
 
             // 조이스틱 2개 쓰기위한 switch문
-            //case JoystickType.Rotate:
-                //controller.LookAround(inputDirection);
-                //break;
+            case JoystickType.Jump:
+                
+                break;
         }
         
-        Debug.Log(inputDirection.x + " / " + inputDirection.y);
+        //Debug.Log(inputDirection.x + " / " + inputDirection.y);
     }
 }

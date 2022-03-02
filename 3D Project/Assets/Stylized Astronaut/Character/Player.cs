@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     
 	private Animator anim;
 	private CharacterController controller;
+    private Vector3 moveDirection = Vector3.zero;
     public float gravity = 20.0f;
 
 
@@ -24,9 +25,7 @@ public class Player : MonoBehaviour {
 	public void Update()
 	{
 
-		
-
-	}
+    }
     public void Move(Vector2 inputDirection)
     {
         // 이동 방향 구하기 1
@@ -53,7 +52,7 @@ public class Player : MonoBehaviour {
 
             // 이동할 때 카메라가 보는 방향 바라보기
             //characterBody.forward = lookForward;
-            // 이동할 때 이동 방향 바라보기
+            // 이동할 때 이동 방향 바라보기         
             characterBody.forward = moveDir;
             // 이동
             controller.Move(moveDir * Time.deltaTime * 6.5f);
@@ -65,26 +64,26 @@ public class Player : MonoBehaviour {
     }
     //  이건 조이스틱 두개 쓸 수도 있으니까 구현해 놓은건데
     //  오른쪽 조이스틱으로 움직이고 왼쪽 조이스틱으로 화면 움직이는 코드임
-    //public void LookAround(Vector3 inputDirection)
-    //{
-    //    // 마우스 이동 값 검출
-    //    Vector2 mouseDelta = inputDirection;
-    //    // 카메라의 원래 각도를 오일러 각으로 저장
-    //    Vector3 camAngle = cameraArm.rotation.eulerAngles;
-    //    // 카메라의 피치 값 계산
-    //    float x = camAngle.x - mouseDelta.y;
+    public void PlayerJump(Vector3 inputDirection)
+    {
+        // 마우스 이동 값 검출
+        Vector2 mouseDelta = inputDirection;
+        // 카메라의 원래 각도를 오일러 각으로 저장
+        Vector3 camAngle = cameraArm.rotation.eulerAngles;
+        // 카메라의 피치 값 계산
+        float x = camAngle.x - mouseDelta.y;
 
-    //    // 카메라 피치 값을 위쪽으로 70도 아래쪽으로 25도 이상 움직이지 못하게 제한
-    //    if (x < 180f)
-    //    {
-    //        x = Mathf.Clamp(x, -1f, 70f);
-    //    }
-    //    else
-    //    {
-    //        x = Mathf.Clamp(x, 335f, 361f);
-    //    }
+        // 카메라 피치 값을 위쪽으로 70도 아래쪽으로 25도 이상 움직이지 못하게 제한
+        if (x < 180f)
+        {
+            x = Mathf.Clamp(x, -1f, 70f);
+        }
+        else
+        {
+            x = Mathf.Clamp(x, 335f, 361f);
+        }
 
-    //    // 카메라 암 회전 시키기
-    //    cameraArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
-    //}
+        // 카메라 암 회전 시키기
+        cameraArm.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
+    }
 }
