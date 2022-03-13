@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5309280701307185897}
   - component: {fileID: 1063496553499227555}
   - component: {fileID: 2246895556150279421}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f566188d2f3a554aaed468dd50247c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHP: 100
+  CurrentHP: 0
+  Damage: 100
+  crashDamage: 100
+  isDead: 0
   MoveVector: {x: 0, y: 0, z: 0}
   Speed: 0
   boxCollider: {fileID: 0}
@@ -54,6 +59,7 @@ MonoBehaviour:
   FireTransform: {fileID: 6385893717194862133}
   Bullet: {fileID: 5683106382118676080, guid: 10a54ac765c1906499de18215b7647dd, type: 3}
   BulletSpeed: 0
+  waitingTime: 0.1
 --- !u!54 &2246895556150279421
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -81,7 +87,7 @@ GameObject:
   - component: {fileID: 8426891194983821975}
   - component: {fileID: 8397055362935416017}
   - component: {fileID: 8406409589389872925}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StarSparrow1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1323102084633524127}
   - component: {fileID: 5141251289577790616}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6385893717194862133}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FIrePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

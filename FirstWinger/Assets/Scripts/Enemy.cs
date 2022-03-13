@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Actor
 {
 
     public enum State : int // -1 ~ 4 까지의 int 상수값을 갖는 열거형 변수들
@@ -28,18 +28,25 @@ public class Enemy : MonoBehaviour
 
     Vector3 CurrentVelocity; //3차원에서의 이동벡터 값
     float MoveStratTime = 0.0f; // 움직이기 시작한 기준이 되는 시간
-    float BattleStartTime = 0.0f; // 배틀을 시작하는 초기 시간
+    
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    [SerializeField]
+    Transform FireTransform;
 
-    }
+    [SerializeField]
+    GameObject Bullet;
+
+    [SerializeField]
+    float BulletSpeed = 1;
+
+    float LastBattleUpdateTime = 0.0f;
+
+    [SerializeField]
+    int FireRemainCount = 1; // Enemy가 쏠 총알의 갯수
 
     // Update is called once per frame
-    void Update()
+    protected override void UpdateActor()
     {
-
 
         switch (CurrentState)
         {
@@ -89,7 +96,7 @@ public class Enemy : MonoBehaviour
         if (CurrentState == State.Appear)
         {
             CurrentState = State.Battle;
-            BattleStartTime = Time.time;
+            LastBattleUpdateTime = Time.time;
         }
         else //if(CurrentState == State.Disappear)
         {
@@ -115,11 +122,21 @@ public class Enemy : MonoBehaviour
         MoveStratTime = Time.time;
     }
 
-    void UpdateBattle() // 등장하고 3초 뒤에 지정해준 x값으로 가는 메소드  
+    void UpdateBattle() // 등장하고 모든 총알을 다 쏘면 지정해준 x값으로 가는 메소드  
     {
-        if (Time.time - BattleStartTime > 3.0f)
+        if (Time.time - LastBattleUpdateTime > 1.0f)
         {
-            Disappear(new Vector3(-15.0f, transform.position.y, transform.position.z));
+            if(FireRemainCount > 0)
+            {
+                Fire();
+                FireRemainCount--;
+            }
+            else
+            {
+                Disappear(new Vector3(-15.0f, transform.position.y, transform.position.z));
+            }
+
+            LastBattleUpdateTime = Time.time;
         }
     }
 
@@ -128,11 +145,32 @@ public class Enemy : MonoBehaviour
 
         Player player = other.GetComponentInParent<Player>();
         if (player)
-            player.OnCrash(this);
+        {
+            if (!player.IsDead)
+                player.OnCrash(this, CrashDamage);
+        }
+            
     }
 
-    public void OnCrash(Player player) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
+    public void OnCrash(Player player, int damage) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
     {
         Debug.Log("OnCrash player = " + player);
+
+        OnCrash(damage);
+    }
+
+    public void Fire() 
+    {
+            GameObject go = Instantiate(Bullet);
+            Bullet bullet = go.GetComponent<Bullet>();
+
+            bullet.Fire(OwnerSide.Enemy, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
+    }
+
+    protected override void OnDead()
+    {
+        base.OnDead();
+
+        CurrentState = State.Dead;
     }
 }

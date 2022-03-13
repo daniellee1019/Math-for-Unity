@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
     [SerializeField]
     Vector3 MoveVector = Vector3.zero;
@@ -28,15 +28,8 @@ public class Player : MonoBehaviour
     float timer = 0.0f;
     public float waitingTime = 0.1f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-     
-
-    }
-
     // Update is called once per frame
-    void Update()
+    protected override void UpdateActor()
     {
         UpdateMove();
         
@@ -83,11 +76,15 @@ public class Player : MonoBehaviour
 
         Enemy enemy = other.GetComponentInParent<Enemy>();
         if (enemy)
-            enemy.OnCrash(this);
+            if (!enemy.IsDead)
+            {
+                enemy.OnCrash(this, CrashDamage);
+            }
     }
-    public void OnCrash(Enemy enemy) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
+    public void OnCrash(Enemy enemy, int damage) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
     {
         Debug.Log("OnCrash enemy = " + enemy);
+        OnCrash(damage);
     }
 
     public void Fire() // 일정한 시간 간격으로 총알 발사
@@ -98,9 +95,9 @@ public class Player : MonoBehaviour
         if (timer > waitingTime)
         {
             GameObject go = Instantiate(Bullet);
+            
             Bullet bullet = go.GetComponent<Bullet>();
-
-            bullet.FIre(OwnerSide.Player, FireTransform.position, FireTransform.right, BulletSpeed);
+            bullet.Fire(OwnerSide.Player, FireTransform.position, FireTransform.right, BulletSpeed , Damage);
 
             timer = 0;
         }
