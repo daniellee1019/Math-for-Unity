@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     Vector3 MoveVector = Vector3.zero;
-  
 
     [SerializeField]
     float Speed;
@@ -17,16 +16,30 @@ public class Player : MonoBehaviour
     [SerializeField]
     Transform MainBGQuadTransform;
 
+    [SerializeField]
+    Transform FireTransform;
+
+    [SerializeField]
+    GameObject Bullet;
+
+    [SerializeField]
+    float BulletSpeed = 1;
+
+    float timer = 0.0f;
+    public float waitingTime = 0.1f;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+     
+
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateMove();
+        
     }
     
     void UpdateMove()
@@ -76,4 +89,24 @@ public class Player : MonoBehaviour
     {
         Debug.Log("OnCrash enemy = " + enemy);
     }
-}
+
+    public void Fire() // 일정한 시간 간격으로 총알 발사
+    {
+
+        timer += Time.deltaTime;
+
+        if (timer > waitingTime)
+        {
+            GameObject go = Instantiate(Bullet);
+            Bullet bullet = go.GetComponent<Bullet>();
+
+            bullet.FIre(OwnerSide.Player, FireTransform.position, FireTransform.right, BulletSpeed);
+
+            timer = 0;
+        }
+    }
+      
+ }
+
+
+

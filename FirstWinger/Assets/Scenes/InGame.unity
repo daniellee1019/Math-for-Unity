@@ -1241,6 +1241,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1063496553499227555, guid: 62b77c075f12e1f448438885de3bd5e5, type: 3}
+      propertyPath: Speed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063496553499227555, guid: 62b77c075f12e1f448438885de3bd5e5, type: 3}
+      propertyPath: BulletSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063496553499227555, guid: 62b77c075f12e1f448438885de3bd5e5, type: 3}
       propertyPath: boxCollider
       value: 
       objectReference: {fileID: 1921985925}
