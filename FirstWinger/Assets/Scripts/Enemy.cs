@@ -44,6 +44,9 @@ public class Enemy : Actor
     [SerializeField]
     int FireRemainCount = 1; // Enemy가 쏠 총알의 갯수
 
+    [SerializeField]
+    int GamePoint = 10;
+
     // Update is called once per frame
     protected override void UpdateActor()
     {
@@ -152,11 +155,9 @@ public class Enemy : Actor
             
     }
 
-    public void OnCrash(Player player, int damage) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
+    public override void OnCrash(Actor attacker, int damage) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
     {
-        Debug.Log("OnCrash player = " + player);
-
-        OnCrash(damage);
+        base.OnCrash(attacker, damage);
     }
 
     public void Fire() 
@@ -164,13 +165,16 @@ public class Enemy : Actor
             GameObject go = Instantiate(Bullet);
             Bullet bullet = go.GetComponent<Bullet>();
 
-            bullet.Fire(OwnerSide.Enemy, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
+            bullet.Fire(this, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
     }
 
-    protected override void OnDead()
+    protected override void OnDead(Actor killer)
     {
-        base.OnDead();
+        base.OnDead(killer);
+
+        SystemManager.Instance.GamePointAccumulator.Accumulate(GamePoint);
 
         CurrentState = State.Dead;
+        Destroy(gameObject);
     }
 }

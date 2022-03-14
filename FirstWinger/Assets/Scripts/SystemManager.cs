@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SystemManager : MonoBehaviour
 {
-    static SystemManager intance = null;
+    static SystemManager instance = null;
     // Start is called before the first frame update
 
     public static SystemManager Instance
     {
         get
         {
-            return intance;
+            return instance;
         }
     }
 
@@ -22,20 +22,46 @@ public class SystemManager : MonoBehaviour
     {
         get
         {
+            if (!player)
+            {
+                Debug.LogError("Main Player is not setted!");
+            }
+
             return player;
         }
     }
 
-    private void Awake()
+    GamePointAccumulator gamePointAccumulator = new GamePointAccumulator();
+
+    public GamePointAccumulator GamePointAccumulator
     {
-        if(intance != null)
+        get
+        {
+            return gamePointAccumulator;
+        }
+    }
+
+    [SerializeField]
+    EffectManager effectManager;
+
+    public EffectManager EffectManager
+    {
+        get
+        {
+            return effectManager;
+        }
+    }
+
+    void Awake()
+    {
+        if(instance != null)
         {
             Debug.LogError("SystemManager error! Singletone error!");
             Destroy(gameObject);
             return;
         }
 
-        intance = this;
+        instance = this;
 
         //Scene 이동간에 사라지지 않도록 처리
         DontDestroyOnLoad(gameObject);

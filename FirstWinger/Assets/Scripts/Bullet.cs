@@ -3,17 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum OwnerSide : int
-{
-    Player = 0,
-    Enemy
-}
 public class Bullet : MonoBehaviour
 {
     const float LifeTime = 15.0f;
-
-
-    OwnerSide ownerSide = OwnerSide.Player; // 발사자 정보
 
     [SerializeField]
     Vector3 MoveDirection = Vector3.zero;
@@ -28,7 +20,8 @@ public class Bullet : MonoBehaviour
 
     [SerializeField]
     int Damage = 1;
- 
+
+    Actor Owner;
     // Update is called once per frame
     void Update()
     {
@@ -48,9 +41,9 @@ public class Bullet : MonoBehaviour
         transform.position += moveVector;
     }
 
-    public void Fire(OwnerSide FireOwner, Vector3 fireDirection, Vector3 direction, float speed, int damage) // 발사를 하기 위한 변수지정
+    public void Fire(Actor owner, Vector3 fireDirection, Vector3 direction, float speed, int damage) // 발사를 하기 위한 변수지정
     {
-        ownerSide = FireOwner;
+        Owner = owner;
         transform.position = fireDirection;
         MoveDirection = direction;
         Speed = speed;
@@ -78,29 +71,17 @@ public class Bullet : MonoBehaviour
         if (Hited)
             return;
 
-        if (ownerSide == OwnerSide.Player)
-        {
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-            if (enemy.IsDead)
-                return;
-
-            enemy.OnBulletHited(Damage);
-        }
-        else
-        {
-            Player player = collider.GetComponentInParent<Player>();
-            if (player.IsDead)
-                return;
-
-            player.OnBulletHited(Damage);
-        }
-
-
         if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet")
-            || collider.gameObject.layer == LayerMask.NameToLayer("PlayerBullet")) // 총알끼리 충돌하는 것을 방지하기 위해.
+            || collider.gameObject.layer == LayerMask.NameToLayer("PlayerBullet"))
         {
             return;
         }
+
+        Actor actor = collider.GetComponentInParent<Actor>();
+        if (actor && actor.IsDead)
+            return;
+
+        actor.OnBulletHited(Owner, Damage);
 
         Collider myCollider = GetComponentInChildren<Collider>();
         myCollider.enabled = false; // 불필요한 충돌부하 제거.
@@ -110,7 +91,9 @@ public class Bullet : MonoBehaviour
 
         //Debug.Log("OnBulletCollision collider = " + collider.name);
 
-        
+        GameObject go = SystemManager.Instance.EffectManager.GenerateEffect(0, transform.position);
+        go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        DIsapper();
     }
 
     private void OnTriggerEnter(Collider other) // 충돌시 이벤트 발생

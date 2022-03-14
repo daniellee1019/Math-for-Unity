@@ -81,10 +81,9 @@ public class Player : Actor
                 enemy.OnCrash(this, CrashDamage);
             }
     }
-    public void OnCrash(Enemy enemy, int damage) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
+    public override void OnCrash(Actor attacker, int damage) // 상대 오브젝트에게 충돌을 했을 때 데미지를 주기위한 메소드
     {
-        Debug.Log("OnCrash enemy = " + enemy);
-        OnCrash(damage);
+        base.OnCrash(attacker, damage);
     }
 
     public void Fire() // 일정한 시간 간격으로 총알 발사
@@ -97,13 +96,19 @@ public class Player : Actor
             GameObject go = Instantiate(Bullet);
             
             Bullet bullet = go.GetComponent<Bullet>();
-            bullet.Fire(OwnerSide.Player, FireTransform.position, FireTransform.right, BulletSpeed , Damage);
+            bullet.Fire(this, FireTransform.position, FireTransform.right, BulletSpeed , Damage);
 
             timer = 0;
         }
     }
-      
- }
+
+    protected override void OnDead(Actor killer)
+    {
+        base.OnDead(killer);
+        gameObject.SetActive(false);
+    }
+
+}
 
 
 
