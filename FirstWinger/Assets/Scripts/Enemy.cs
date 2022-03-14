@@ -47,6 +47,12 @@ public class Enemy : Actor
     [SerializeField]
     int GamePoint = 10;
 
+    public string FilePath
+    {
+        get;
+        set;
+    }
+
     // Update is called once per frame
     protected override void UpdateActor()
     {

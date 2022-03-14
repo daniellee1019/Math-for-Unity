@@ -52,6 +52,34 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+    public EnemyMamager EnemyMamager
+    {
+        get
+        {
+            return EnemyMamager;
+        }
+    }
+
+    PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
+
+    public PrefabCacheSystem EnemyCacheSystem
+    {
+        get
+        {
+            return enemyCacheSystem;
+        }
+    }
+
+    PrefabCacheSystem effectCacheSystem = new PrefabCacheSystem();
+
+    public PrefabCacheSystem EffectCacheSystem
+    {
+        get
+        {
+            return effectCacheSystem;
+        }
+    }
+
     void Awake()
     {
         if(instance != null)
@@ -67,14 +95,4 @@ public class SystemManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

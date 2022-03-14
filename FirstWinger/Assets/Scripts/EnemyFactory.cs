@@ -43,7 +43,6 @@ public class EnemyFactory : MonoBehaviour
        
         } // 메모리상에만 배치되어 있는 것이기 때문에 Instantiate 를 사용해서 Scene상에 배치해야된다.
 
-        GameObject InstancedGo = Instantiate<GameObject>(go);
-        return InstancedGo;
+        return go;
     }
 }
