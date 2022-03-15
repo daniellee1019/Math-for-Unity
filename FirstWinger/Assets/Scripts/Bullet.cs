@@ -22,6 +22,13 @@ public class Bullet : MonoBehaviour
     int Damage = 1;
 
     Actor Owner;
+
+    public string Filepath
+    {
+        get;
+        set;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -121,6 +128,6 @@ public class Bullet : MonoBehaviour
 
     void DIsapper()
     {
-        Destroy(gameObject);
+        SystemManager.Instance.BulletManager.Remove(this);
     }
 }

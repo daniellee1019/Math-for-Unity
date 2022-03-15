@@ -20,9 +20,6 @@ public class Player : Actor
     Transform FireTransform;
 
     [SerializeField]
-    GameObject Bullet;
-
-    [SerializeField]
     float BulletSpeed = 1;
 
     float timer = 0.0f;
@@ -93,9 +90,7 @@ public class Player : Actor
 
         if (timer > waitingTime)
         {
-            GameObject go = Instantiate(Bullet);
-            
-            Bullet bullet = go.GetComponent<Bullet>();
+            Bullet bullet = SystemManager.Instance.BulletManager.Generate(BulletManager.PlayerBulletIndex);
             bullet.Fire(this, FireTransform.position, FireTransform.right, BulletSpeed , Damage);
 
             timer = 0;

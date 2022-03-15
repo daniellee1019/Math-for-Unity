@@ -52,11 +52,25 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    EnemyMamager enemyMamager;
+
     public EnemyMamager EnemyMamager
     {
         get
         {
-            return EnemyMamager;
+            return enemyMamager;
+        }
+    }
+
+    [SerializeField]
+    BulletManager bulletManager;
+    
+    public BulletManager BulletManager
+    {
+        get
+        {
+            return bulletManager;
         }
     }
 
@@ -77,6 +91,16 @@ public class SystemManager : MonoBehaviour
         get
         {
             return effectCacheSystem;
+        }
+    }
+
+    PrefabCacheSystem bulletCacheSystem = new PrefabCacheSystem();
+
+    public PrefabCacheSystem BulletCacheSystem
+    {
+        get
+        {
+            return bulletCacheSystem;
         }
     }
 

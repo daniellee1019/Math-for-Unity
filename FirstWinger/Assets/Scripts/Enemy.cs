@@ -28,13 +28,9 @@ public class Enemy : Actor
 
     Vector3 CurrentVelocity; //3차원에서의 이동벡터 값
     float MoveStratTime = 0.0f; // 움직이기 시작한 기준이 되는 시간
-    
 
     [SerializeField]
     Transform FireTransform;
-
-    [SerializeField]
-    GameObject Bullet;
 
     [SerializeField]
     float BulletSpeed = 1;
@@ -110,6 +106,7 @@ public class Enemy : Actor
         else //if(CurrentState == State.Disappear)
         {
             CurrentState = State.None;
+            SystemManager.Instance.EnemyMamager.RemoveEnemy(this);
         }
     }
 
@@ -168,10 +165,8 @@ public class Enemy : Actor
 
     public void Fire() 
     {
-            GameObject go = Instantiate(Bullet);
-            Bullet bullet = go.GetComponent<Bullet>();
-
-            bullet.Fire(this, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
+        Bullet bullet = SystemManager.Instance.BulletManager.Generate(BulletManager.EnemyBulletIndex);
+        bullet.Fire(this, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
     }
 
     protected override void OnDead(Actor killer)
@@ -179,8 +174,8 @@ public class Enemy : Actor
         base.OnDead(killer);
 
         SystemManager.Instance.GamePointAccumulator.Accumulate(GamePoint);
+        SystemManager.Instance.EnemyMamager.RemoveEnemy(this);
 
         CurrentState = State.Dead;
-        Destroy(gameObject);
     }
 }
