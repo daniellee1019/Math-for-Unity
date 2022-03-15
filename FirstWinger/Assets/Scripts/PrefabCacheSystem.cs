@@ -59,7 +59,7 @@ public class PrefabCacheSystem
     {
         if (!Caches.ContainsKey(filePath))
         {
-            Debug.LogWarning("Restore Error! no Cache generated! filePath = " + filePath);
+            Debug.LogError("Restore Error! no Cache generated! filePath = " + filePath);
             return false;
         }
 

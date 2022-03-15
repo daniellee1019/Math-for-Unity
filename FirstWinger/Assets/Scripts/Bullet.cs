@@ -98,7 +98,7 @@ public class Bullet : MonoBehaviour
 
         //Debug.Log("OnBulletCollision collider = " + collider.name);
 
-        GameObject go = SystemManager.Instance.EffectManager.GenerateEffect(0, transform.position);
+        GameObject go = SystemManager.Instance.EffectManager.GenerateEffect(EffectManager.BulletDisappearFxIndex, transform.position);
         go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         DIsapper();
     }
